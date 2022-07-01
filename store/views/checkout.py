@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
 from store.models.customer import Customer
 from django.views import View
+from django.core.mail import send_mail
 
 from store.models.product import Products
 from store.models.orders import Order
@@ -26,6 +27,15 @@ class CheckOut(View):
                           phone=phone,
                           quantity=cart.get(str(product.id)))
             order.save()
+            send_mail(
+                'order from',
+                'amounting to',
+                'njugnadaniel364@gmail.com',
+                ['njugunadaniel364@gmail.com'],
+                fail_silently=False,
+                )
         request.session['cart'] = {}
+        
+        return redirect('homepage')
 
-        return redirect('cart')
+
